@@ -21,24 +21,38 @@ A series of computer vision functions are used to process the raw maze image in 
 ![](images/computer_vision_overview.png)
 
 #### Color Detection
-- Four colors need to be detected in the hand drawn maze. Red and green sharpies are used to indicate the desired start and end of the maze. Black is used for maze walls, and white is the remaining white paper. Using [OpenCV]([url](https://github.com/opencv/opencv)), the image is converted to an HSV color space and masks are detected based on a colors range within the HSV values.
+- Four colors need detection in the hand drawn maze. Red and green sharpies indicate the desired start and end of the maze. Black indicates maze walls, and white is the remaining white paper. Using [OpenCV]([url](https://github.com/opencv/opencv)), the image is converted to an HSV color space and masks are detected based on a colors range within the HSV values.
 
 #### Start/End Identification
-- The centroid of the largest red and green cluster in the color masks are used to identify start and end coordinates of the maze image. 
+- The centroid of the largest red and green cluster in the color masks are used to identify start and end coordinates of the maze image.
 
 #### Skeletonization
-- In order to reduce graph computation time and center the solution path within the maze walls, the maze image is further processed by skeletonization. This is achieved with a thinning function that effectively increases the black walls until the solution space just consists of thin white lines along with the red and green start/end regions.
+- To reduce graph computation time and keep the solution path centered in the maze walls, the image is further processed by skeletonization. A thinning function effectively increases the black walls until the solution space just consists of thin white lines along with the red and green start/end regions.
 
 ## Maze Graph and Algorithm
+The skeletonized maze image is converted into a custom graph data structure that can then be solved with a path algorithm. Below is a visual representation of how a simple maze is solved with nodes, a graph, and the algorithm outlined below.
 
 ![](images/maze_simple_overview.png)
 
-## Motion Control
+#### PixelNode Class
+- A class used to create nodes from image pixels that contains information on their x and y coordinates and color.
 
+#### MazeGraph Data Structure
+- A graph data structure that represents the maze. Made from PixelNodes that are connected with an adjacency list to represent graph edges. Graph only contains red, green, and white nodes and no black nodes since the solution should only traverse within maze walls.
+
+#### Dijkstra's Algorithm
+- Dijkstra's algorithm is used to find the maze graph solution path coordinates. Start and end coordinates identified during image processing are used for source and destination nodes. A few strategies identified greatly increase speed at which the graph generates and algorithm execute, namely image resizing and skeletonization during image processing steps and exclusion of black PixelNodes from the maze graph.
+
+## Motion Control
+A few motion control functions are used to process the solution coordinates into G-code and then have the plotter draw the solution onto the maze. The solution coordinates are first scaled to accomodate changing from an image to the CNC plotter space. A series of functions are then used to convert the coordinates into G-code for drawing the solution. Finally this G-code is sent to the plotters Arduino which is running [grbl](https://github.com/grbl/grbl) and draws the solution.
+
+![](images/motion_control_overview.png)
 
 ## Misc. Images
 Solving a round style maze
 ![](images/maze_round_overview.png)
+<br />
+<br />
 
 Example of a maze solution that did not undergo skeletonization during image processing. Solution nears maze walls too aggresively and is likely to overlap on walls once physically drawn.
 <p> <img src="images/maze1_solution_no_skeleton.png" width="400px"> </p>
