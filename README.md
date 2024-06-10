@@ -5,7 +5,7 @@ Project repository for a maze solving robot. Developed a robot that automaticall
 [Video file](images/solution.MOV)
 
 ## System Overview
-System first prompts user to hand draw maze in an indicated region and then captures an image with an ESP32-Cam. System then proceeds to process maze into a graph structure and solve with a graph algorithm. Finally, solution is converted into G-code and an Arduino and drawing plotter are used to draw the maze solution path trajectory.
+System first prompts user to hand draw maze in indicated region and then captures image with ESP32-Cam. System then processes maze into a graph structure and solves with a graph algorithm. Finally, solution is converted into G-code and an Arduino and drawing plotter are used to draw the maze solution path trajectory.
 
 ![](images/system_overview.png)
 ![](images/maze2_overview.png)
@@ -16,7 +16,7 @@ A custom designed camera bracket assembly integrates an ESP32-Cam with the drawi
 ![](images/ESP32-CAM_overview.png)
 
 ## Computer Vision and Image Processing
-A series of computer vision functions are used to process the raw maze image in preparation for maze solving. The primary maze image processing taks are color detection, start and end identification, and skeletonization.
+A series of computer vision functions are used to process the raw maze image in preparation for maze solving. The primary image processing taks are color detection, start and end identification, and skeletonization.
 
 ![](images/computer_vision_overview.png)
 
@@ -44,7 +44,7 @@ The skeletonized maze image is converted into a custom graph data structure that
 - Dijkstra's algorithm is used to find the maze graph solution path coordinates. Start and end coordinates identified during image processing are used for source and destination nodes. A few strategies identified greatly increase speed at which the graph generates and algorithm execute, namely image resizing and skeletonization during image processing steps and exclusion of black PixelNodes from the maze graph.
 
 ## Motion Control
-A few motion control functions are used to process the solution coordinates into G-code and then have the plotter draw the solution onto the maze. The solution coordinates are first scaled to accomodate changing from an image to the CNC plotter space. A series of functions are then used to convert the coordinates into G-code for drawing the solution. Finally this G-code is sent to the plotters Arduino which is running [grbl](https://github.com/grbl/grbl) and draws the solution.
+A few functions are used to process the solution for motion control. The solution coordinates are first scaled to accomodate changing from an image to the CNC plotter space. A series of functions are then used to convert the coordinates into G-code for CNC programming. Finally, this G-code is sent to the plotters Arduino which is running [grbl](https://github.com/grbl/grbl) and draws the solution.
 
 ![](images/motion_control_overview.png)
 
