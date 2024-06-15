@@ -49,7 +49,7 @@ A few functions are used to process the solution for motion control. The solutio
 ![](images/motion_control_overview.png)
 
 ## Misc. Images
-Solving a round style maze
+Solving a round style maze. Orthogonal mazes seem to work best with the skeletonization but round still works fine enough.
 ![](images/maze_round_overview.png)
 <br />
 <br />
