@@ -16,7 +16,7 @@ A custom designed camera bracket assembly integrates an ESP32-Cam with the drawi
 ![](images/ESP32-CAM_overview.png)
 
 ## Computer Vision and Image Processing
-A series of computer vision functions are used to process the raw maze image in preparation for maze solving. The primary image processing taks are color detection, start and end identification, and skeletonization.
+A series of computer vision functions are used to process the raw maze image in preparation for maze solving. The primary image processing tasks are color detection, start and end identification, and skeletonization.
 
 ![](images/computer_vision_overview.png)
 
